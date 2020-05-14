@@ -52,20 +52,6 @@ function draw() {
   textAlign(CENTER, CENTER);
   fill(255);
   text(label, width / 2, height - 16);
-
-  // Pick an emoji, the "default" is train
-//  let emoji = "🚂";
-//  if (label == "Rainbow") {
-//    emoji = "🌈";
-//  } else if (label == "Unicorn") {
-//    emoji = "🦄";
-//  } else if (label == "Ukulele") {
-//    emoji = "🎸";
-//  }
-
-  // Draw the emoji
-  textSize(256);
-//  text(emoji, width / 2, height / 2);
   
   if(pose){
     fill(16,168,223);
