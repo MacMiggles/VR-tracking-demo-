@@ -1,16 +1,12 @@
 let capture;
 let poseNet;
 let pose;
-
-
 let video;
-// For displaying the label
 let label = "waiting...";
-// The classifier
 let classifier;
 let modelURL = './tensorflow/';
 
-// STEP 1: Load the model!
+
 function preload() {
   classifier = ml5.imageClassifier(modelURL + 'model.json');
 }
@@ -25,11 +21,10 @@ function setup() {
   poseNet = ml5.poseNet(capture);
   poseNet.on("pose", gotPoses);
 
-  // STEP 2: Start classifying
   classifyVideo();
 }
 
-// STEP 2 classify the videeo!
+
 function classifyVideo() {
   classifier.classify(video, gotResults);
 }
@@ -52,10 +47,11 @@ function draw() {
   textAlign(CENTER, CENTER);
   fill(255);
   text(label, width / 2, height - 16);
-  
+
+
   if(pose){
     fill(16,168,223);
-    ellipse(pose.nose.x, pose.nose.y, 10);
+//    ellipse(pose.nose.x, pose.nose.y, 10);
     ellipse(pose.leftElbow.x, pose.leftElbow.y, 10);
     ellipse(pose.rightElbow.x, pose.rightElbow.y, 10);
     ellipse(pose.leftShoulder.x, pose.leftShoulder.y, 10);
@@ -64,7 +60,6 @@ function draw() {
     ellipse(pose.rightWrist.x, pose.rightWrist.y, 10);
   }
   
- // find the difference betweeen wrist and sholder 
   if(pose){
     let wristL = pose.leftWrist;
     let wristR = pose.rightWrist;
@@ -73,24 +68,31 @@ function draw() {
     
     let l = dist(wristL.x, wristL.y, shoulderL.x, shoulderL.y);
     let r = dist(wristR.x, wristR.y, shoulderR.x, shoulderR.y);
- 
-// print z, x, y
-    console.log(l, wristL.x, wristL.y);
-    console.log(r, wristR.x, wristR.y);
+    
+//    fill(l,0,0);
+    fill(l, pose.leftWrist.x, pose.leftWrist.y);
+    ellipse(pose.leftEye.x, pose.leftEye.y, 10);
+//    fill(r,0,0);
+    fill(r, pose.rightWrist.x, pose.rightWrist.y);
+    ellipse(pose.rightEye.x, pose.rightEye.y, 10);
+
+    
+    // print z, x, y
+//    console.log(l, wristL.x, wristL.y);
+//    console.log(r, wristR.x, wristR.y);
 //print label   
-    console.log(label);
+//    console.log(label);
     
   }  
 }
 
-// STEP 3: Get the classification!
 function gotResults(error, results) {
   // Something went wrong!
   if (error) {
     console.error(error);
     return;
   }
-  // Store the label and classify again!
+
   label = results[0].label;
   classifyVideo();
 }
